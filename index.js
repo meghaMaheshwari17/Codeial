@@ -3,6 +3,8 @@ const express=require('express');
 const app=express(); //getting all the express functionality in app constant 
 const port=8000;
 
+//need to tell that all the routes will be execute in routes/index.js
+app.use('/',require('./routes')); 
 
 
 //running the server 
