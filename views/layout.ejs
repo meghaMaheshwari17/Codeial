@@ -1,0 +1,20 @@
+<html>
+  <head>
+      <title><%= title %></title>
+      <!-- for common pages -->
+      <link rel="stylesheet" href="/css/layout.css" type="text/css">
+      <!-- for sub pages -->
+      <%- style %>
+    </head>
+  <!-- the common part -->
+  <%- include('_header.ejs'); %>
+  <body>
+     
+      <!-- the variable part will be filled from the controller -->
+      <%- body %>
+  </body>
+  <%- include('_footer'); %>
+  
+  <!-- for sub pages (if there is a link or script tag in the body it will automatically place it at the specified place)-->
+  <%- script %>
+</html>
