@@ -16,8 +16,21 @@
           <textarea name="content" cols="30" rows="3" placeholder="Type here..."></textarea>
           <input type="submit" value="Post">
         </form>
+        
+       <div id="posts-list-container">
+         <ul>
+        <% for (i of posts){ %>
+         <li>
+           <%= i.content %>
+           <br>
+           <p>
+             <%=i.user.name %>
+           </p>
+         </li>
+        <% } %>
+         </div>
+        </ul>
       </section>
-  
-
+      
   <!--  include('_footer'); -->
 <!-- </html>  -->
