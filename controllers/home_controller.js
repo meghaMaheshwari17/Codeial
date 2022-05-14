@@ -16,10 +16,19 @@ module.exports.home=function(req,res){
     //     return res.render('home',{title:"Codeial | Home",posts:posts}) //rendering home.ejs file
     // });  
 
-    Post.find({}).populate('user').exec(function(err, posts){
+    Post.find({})
+    .populate('user')
+    .populate({   //populating comment and user of that comment  
+       path:'comments',
+       populate:{
+           path:'user'
+       }
+     })                 
+    .exec(function(err, posts){
         if(err){console.log('Error in displaying posts'); return;}
         return res.render('home',{title:"Codeial | Home",posts:posts}) //rendering home.ejs file
     });//prepopulating posts so user will contain the whole user data from db 
+    //now will have to preopulate the post so that comments can also load 
    
 }
 
