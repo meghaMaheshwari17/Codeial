@@ -13,6 +13,10 @@ router.use('/users',require('./users'));
 
 //for any further routes you need to do something like this
  //router.use('/routerName',require('./fileName'));
+//to request to /posts
 router.use('/posts',require('./posts'));
+
+//to request to /comments 
+router.use('/comments',require('./comments'));
 //exporting it to make it available to main index.js
 module.exports=router;
