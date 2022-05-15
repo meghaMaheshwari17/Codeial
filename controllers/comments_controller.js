@@ -22,3 +22,27 @@ module.exports.create = function(req,res){
   })
 
 }
+
+
+//deleting the comment 
+module.exports.destroy = function(req,res){
+    //finding the comment by params
+    Comment.findById(req.params.id,function(err,comment){
+        //if post user is same as logged in user , then also he/she can delete the comment 
+        Post.findById(comment.post,function(err,post){
+               //if user of the comment is same as logged in user then only comment can be deleted
+               if(comment.user==req.user.id || req.user.id==post.user){
+               //saving post id to remove the comment from the array of comments from that particular post too 
+              let postId=comment.post;
+               comment.remove(); //removing the comment
+               comment.save(); //saving the deletion of the comment
+               //pulling out the comment from the comments array in post ,$pull is used to remove that particular comment  
+              Post.findByIdAndUpdate(postId,{ $pull:{comments:req.params.id}},function(err,post){
+                 return res.redirect('back');
+               })
+            }else{
+            return res.redirect('back');
+            }
+      })
+    })
+}

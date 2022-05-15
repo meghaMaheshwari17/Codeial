@@ -23,6 +23,13 @@
          <ul>
         <% for (i of posts){ %>
          <li>
+           <!-- checking if user logged in is same as the user who posted it -->
+           <!-- locals.user is to check if user is there -->
+           <% if(locals.user && locals.user.id==i.user.id){ %> 
+            <small>
+             <a href="/posts/destroy/<%=i.id%>">X</a>
+            </small>
+            <%}%>
            <%= i.content %>
            <br>
            <p>
@@ -44,6 +51,13 @@
                   <!-- i here is indivial post -->
                   <% for(comment of i.comments){ %>   
                     <p>
+                      <!-- deleting the comment:- if user exists,if comments'user is same as logged in user , posts user is same as logged in user, you can delete the comment --> 
+                      <% if(locals.user && (locals.user.id==comment.user.id || locals.user.id==i.user.id)){ %> 
+                        <small>
+                         <a href="/comments/destroy/<%=comment.id%>">X</a>
+                        </small>
+                       <%}%>
+
                     <%=comment.content%> 
                      <br>
                      <small><%=comment.user.name%></small>

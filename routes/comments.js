@@ -9,5 +9,7 @@ const commentsController =require('../controllers/comments_controller');
 //passport.checkAuthentication so that unauthenticated users can not comment
 router.post('/create',passport.checkAuthentication,commentsController.create);
 
+//deleting the comment 
+router.get('/destroy/:id',passport.checkAuthentication,commentsController.destroy);
 //exporting it
 module.exports=router;
