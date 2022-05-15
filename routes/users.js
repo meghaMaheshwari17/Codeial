@@ -10,7 +10,7 @@ const usersController=require('../controllers/users_controller');
 //router.get('/profile',usersController.profile);
 
 //making the get request for /profile only if user is Authenticated
-router.get('/profile', passport.checkAuthentication, usersController.profile);
+router.get('/profile/:id', passport.checkAuthentication, usersController.profile);
 
 
 //making get request for signup
@@ -33,5 +33,9 @@ router.post('/create-session',passport.authenticate(
     'local', //stragtegy
     {failureRedirect:'/users/sign-in'}, //if the user fails to sign in
 ),usersController.createSession);
+
+//to update user info 
+router.post('/update/:id',passport.checkAuthentication, usersController.update);
+
 //exporting it to routes index.js
 module.exports=router;

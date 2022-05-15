@@ -14,9 +14,13 @@ module.exports.profile = function(req,res){
    // }else{//if user_id is not present in the cookies
    //    return res.redirect('/users/sign-in');
    // }
-   return res.render('user_profile', {
-      title: 'User Profile'
-  })
+   User.findById(req.params.id,function(err, user){
+      return res.render('user_profile', {
+         title: 'User Profile',
+         profile_user:user
+     })
+   })
+   
 }
 
 //rendering signup page
@@ -100,3 +104,16 @@ module.exports.destroySession=function(req,res){
 //    res.clearCookie('user_id');
 //    return res.redirect('/users/sign-in');
 // };
+
+//updating the user info from profile 
+module.exports.update = function(req, res){
+   if(req.user.id==req.params.id){
+      User.findByIdAndUpdate(req.params.id,{name:req.body.name,email:req.body.email},function(err, user){
+         return res.redirect('back');
+      })
+   }else{
+      return res.status(401).send('Unauthorized');
+   }
+
+   
+}

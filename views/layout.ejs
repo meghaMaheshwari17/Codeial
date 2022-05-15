@@ -9,15 +9,15 @@
       <%- style %>
     </head>
     <body>
-  <!-- the common part -->
-  <%- include('_header.ejs'); %>
+        <!-- the common part -->
+        <%- include('_header.ejs'); %>
  
-     <main id="layout-main">
-      <!-- the variable part will be filled from the controller -->
-      <%- body %>
-    </main>
-  <%- include('_footer'); %>
-</body>
+       <main id="layout-main">
+       <!-- the variable part will be filled from the controller -->
+         <%- body %>
+       </main>
+       <%- include('_footer'); %>
+    </body>
   <!-- for sub pages (if there is a link or script tag in the body it will automatically place it at the specified place)-->
   <%- script %>
 </html>

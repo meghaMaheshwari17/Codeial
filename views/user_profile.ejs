@@ -10,7 +10,21 @@
 
 
 <link rel="stylesheet" href="/css/user_profile.css">
-<body>
-    <h1>Hello, <%=user.name%> from user_profile</h1>
-    <p><%=user.email%></p>
-</body>
+
+    
+
+
+<!-- if the user who is logged in clicked on its own name then display a form to them -->
+<% if(profile_user.id==user.id) { %>
+  <!-- can change their info -->
+   <form action="/users/update/<%=profile_user.id%>" method="POST">
+       <input type="text" name="name" placeholder="Your name" value="<%=profile_user.name%>" required>
+       <input type="email" name="email" placeholder="Your email" value="<%=profile_user.email%>" required>
+       <input type="submit" value="update">
+    </form>
+    
+<% } else { %>
+  <!-- if the user is different then show only profile info -->
+  <h1>Hello, <%=profile_user.name%> from user_profile</h1>
+  <p><%=profile_user.email%></p>
+<% } %>
