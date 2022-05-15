@@ -1,0 +1,33 @@
+<li>
+    <!-- checking if user logged in is same as the user who posted it -->
+    <!-- locals.user is to check if user is there -->
+     <% if(locals.user && locals.user.id==i.user.id){ %> 
+      <small>
+      <a href="/posts/destroy/<%=i.id%>">X</a>
+      </small>
+     <%}%>
+     <%= i.content %>
+     <br>
+     <p>
+      <%=i.user.name %>
+     </p>
+     <!-- displaying comments of the post -->
+     <div class="post-comments">
+      <% if (locals.user){ %> <!--  will only be visible or accessible by authenticated users -->
+        <form method="POST" action="/comments/create"> <!-- creating comments    -->
+          <input type="text" name="content" cols="20" rows="1" placeholder="Comment here..." required></textarea>
+          <!-- need to send the postid -->
+          <input type="hidden" name="post" value="<%=i._id%>" />
+          <input type="submit" value="Add Comment">
+        </form>
+      <% } %>
+      <!--displaying created comments -->
+      <div class="post-comments-list">
+        <ul id="post-comments-<%=i._id%>">
+          <!-- i here is indivial post -->
+          <% for(comment of i.comments){ %>   
+              <%-include('_comment');%>
+          <%}%>
+        </ul>
+      </div>
+</li>

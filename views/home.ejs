@@ -8,72 +8,25 @@
   <!--  include('_header.ejs');  -->
 
 
-      <h1>Hello, world from home.ejs</h1>
+<h1>Hello, world from home.ejs</h1>
       
-      <section id="feed-posts">
-        <h4>Posts</h4>
-        <% if (locals.user){ %> <!--only user will throw error -->
-        <form action="/posts/create" id="new-post-form" method="POST">
-          <textarea required name="content" cols="30" rows="3" placeholder="Type here..."></textarea>
-          <input type="submit" value="Post">
-        </form>
-        <% } %>
-        <!-- displaying individual posts -->
-       <div id="posts-list-container">
-         <ul>
-        <% for (i of posts){ %>
-         <li>
-           <!-- checking if user logged in is same as the user who posted it -->
-           <!-- locals.user is to check if user is there -->
-           <% if(locals.user && locals.user.id==i.user.id){ %> 
-            <small>
-             <a href="/posts/destroy/<%=i.id%>">X</a>
-            </small>
-            <%}%>
-           <%= i.content %>
-           <br>
-           <p>
-             <%=i.user.name %>
-           </p>
-           <!-- displaying comments of the post -->
-           <div class="post-comments">
-            <% if (locals.user){ %> <!--  will only be visible or accessible by authenticated users -->
-           <form method="POST" action="/comments/create"> <!-- creating comments    -->
-            <input type="text" name="content" cols="20" rows="1" placeholder="Comment here..." required></textarea>
-            <!-- need to send the postid -->
-            <input type="hidden" name="post" value="<%=i._id%>" />
-            <input type="submit" value="Add Comment">
-           </form>
-           <% } %>
-              <!--displaying created comments -->
-              <div class="post-comments-list">
-                <ul id="post-comments-<%=i._id%>">
-                  <!-- i here is indivial post -->
-                  <% for(comment of i.comments){ %>   
-                    <p>
-                      <!-- deleting the comment:- if user exists,if comments'user is same as logged in user , posts user is same as logged in user, you can delete the comment --> 
-                      <% if(locals.user && (locals.user.id==comment.user.id || locals.user.id==i.user.id)){ %> 
-                        <small>
-                         <a href="/comments/destroy/<%=comment.id%>">X</a>
-                        </small>
-                       <%}%>
-
-                    <%=comment.content%> 
-                     <br>
-                     <small><%=comment.user.name%></small>
-                    </p>
-                    
-                  <%}%>
-                </ul>
-
-              </div>
-
-          </div>
-         </li>
-        <% } %>
-         </div>
-        </ul>
-      </section>
+<section id="feed-posts">
+  <h4>Posts</h4>
+  <% if (locals.user){ %> <!--only user will throw error -->
+    <form action="/posts/create" id="new-post-form" method="POST">
+      <textarea required name="content" cols="30" rows="3" placeholder="Type here..."></textarea>
+      <input type="submit" value="Post">
+    </form>
+  <% } %>
+  <!-- displaying individual posts -->
+  <div id="posts-list-container">
+    <ul>
+      <% for (i of posts){ %>
+          <%-include('_post');%>  
+      <% } %>
+    </ul>
+  </div>          
+</section>
       
   <!--  include('_footer'); -->
 <!-- </html>  -->

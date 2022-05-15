@@ -20,7 +20,7 @@ module.exports.destroy= function(req,res){
     Post.findById(req.params.id,function(err,post){
         if(post){ //if post exist 
           //check if the user who is deleting the post is the creator of the post
-          if(post.user == req.user.id){ //ideally _id should have been done but mongoose provides .id so id is directly converted to string 
+          if(post.user == req.user.id){ //ideally _id should have been done but mongoose provides .id so id is directly converted to string, since ._id is of type objectId and .id is of type string 
                post.remove(); //removing post
               Comment.deleteMany({post:req.params.id},function(err){
                   return res.redirect('back');

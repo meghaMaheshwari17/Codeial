@@ -25,6 +25,7 @@ module.exports.home=function(req,res){
        }
      })                 
     .exec(function(err, posts){
+
         if(err){console.log('Error in displaying posts'); return;}
         return res.render('home',{title:"Codeial | Home",posts:posts}) //rendering home.ejs file
     });//prepopulating posts so user will contain the whole user data from db 
