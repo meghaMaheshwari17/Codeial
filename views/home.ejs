@@ -7,10 +7,11 @@
   <!-- including partials -->
   <!--  include('_header.ejs');  -->
 
+<link rel="stylesheet" href="/css/home.css">
 
-<h1>Hello, world from home.ejs</h1>
-      
-<section id="feed-posts">
+<div id="home-container">
+
+ <section id="feed-posts">
   <h4>Posts</h4>
   <% if (locals.user){ %> <!--only user will throw error -->
     <form action="/posts/create" id="new-post-form" method="POST">
@@ -36,6 +37,6 @@
      </p>
   <% } %>
 </section>
-
+</div>
 <!--  include('_footer'); -->
 <!-- </html>  -->
