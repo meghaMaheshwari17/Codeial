@@ -18,6 +18,11 @@ const passportLocal=require('./config/passport-local-strategy');
 const MongoStore=require('connect-mongo')(session); //session is give as argument as it requires to save it
 //to use sass 
 const sassMiddleware=require('node-sass-middleware');
+// importing flash for flash-messages 
+const flash=require('connect-flash');
+//importing custom middleware to be used (for flash)
+const customMiddleware=require('./config/middleware');
+
 //using sass before server starts
 app.use(sassMiddleware({
     src:'./assets/scss', //from where the sass files will be picked up
@@ -82,6 +87,10 @@ app.use(passport.session());
 //setting cuurent user :_ whenever any request comes this middleware will be called and user will be set in views
 app.use(passport.setAuthenticatedUser);
 
+//using flash for flash messages
+app.use(flash());
+//to use the custom middleware for flash messages
+app.use(customMiddleware.setFlash);
 
 //need to tell that all the routes will be execute in routes/index.js
 app.use('/',require('./routes'));  

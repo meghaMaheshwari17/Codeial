@@ -90,11 +90,16 @@ module.exports.create=function(req,res){
 
 //session is created in passport js 
 module.exports.createSession=function(req,res){
+   //the function that is creating the session need to tell if the request is correct or not for flash message 
+   req.flash('success','Logged in successfully!'); //will show a message saying logged in successfully
    return res.redirect('/');
 };
 
 //to make user signOut
 module.exports.destroySession=function(req,res){
+   //flash messaage:- its on req, we have to transfer it to res  
+   req.flash('success','you have logged out');
+
    req.logout(); //function by passport 
    return res.redirect('/');
 };

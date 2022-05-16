@@ -11,7 +11,13 @@
     <body>
         <!-- the common part -->
         <%- include('_header.ejs'); %>
- 
+
+        <!-- putting flash messages :- gone when page is refreshed-->
+        <% if(flash.success && flash.success.length>0){ %> 
+          <h5>
+            <%= flash.success %>
+          </h5>
+        <% } %> 
        <main id="layout-main">
        <!-- the variable part will be filled from the controller -->
          <%- body %>
