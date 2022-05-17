@@ -18,10 +18,12 @@ module.exports.create= async function(req,res){
             content: req.body.content ,
             user:req.user._id
          });
+         req.flash('success','Post created!');
          return res.redirect('back'); 
     }catch(error){
+        req.flash('error','Error in creating post');
         console.log(error);
-        return;
+        return res.redirect('back');
     }
     
 }
@@ -52,12 +54,16 @@ module.exports.destroy= async function(req,res){
         if(post.user == req.user.id){ //ideally _id should have been done but mongoose provides .id so id is directly converted to string, since ._id is of type objectId and .id is of type string 
              post.remove(); //removing post
             await Comment.deleteMany({post:req.params.id});
+            //flash message 
+            req.flash('success','Post deleted');
             return res.redirect('back');
         }else{
+            req.flash('error','you cannot delete this post');
             return res.redirect('back');
         }
       }
     }catch(error){
+        req.flash('error',error);
         console.log(error);
         return;
     }

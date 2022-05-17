@@ -1,7 +1,10 @@
 <html>
   <head>
       <title><%= title %></title>
-      <!-- for common pages -->
+      <!-- noty for notifications -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <!-- css for common pages -->
       <link rel="stylesheet" href="/css/layout.css" type="text/css">
       <link rel="stylesheet" href="/css/header.css" type="text/css">
       <link rel="stylesheet" href="/css/footer.css" type="text/css">
@@ -12,12 +15,12 @@
         <!-- the common part -->
         <%- include('_header.ejs'); %>
 
-        <!-- putting flash messages :- gone when page is refreshed-->
-        <% if(flash.success && flash.success.length>0){ %> 
+        <!-- putting flash messages :- gone when page is refreshed:-> gonna use noty instead of this-->
+        <!-- <% if(flash.success && flash.success.length>0){ %> 
           <h5>
             <%= flash.success %>
           </h5>
-        <% } %> 
+        <% } %>  -->
        <main id="layout-main">
        <!-- the variable part will be filled from the controller -->
          <%- body %>
@@ -26,4 +29,25 @@
     </body>
   <!-- for sub pages (if there is a link or script tag in the body it will automatically place it at the specified place)-->
   <%- script %>
+  <!-- for noty flash messages-->
+  <script>
+    <% if(flash.success && flash.success.length>0){ %>
+      new Noty({
+        theme:'relax', 
+         text: '<%=flash.success%>', 
+         type:'success',
+         layout:'topRight',
+         timeout:1000
+      }).show();
+    <% } %>
+    <% if(flash.error && flash.error.length>0){ %>
+      new Noty({
+        theme:'relax', 
+         text: '<%=flash.error%>', 
+         type:'error',
+         layout:'topRight',
+         timeout:1000
+      }).show();
+    <% } %>
+  </script>
 </html>

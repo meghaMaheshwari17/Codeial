@@ -114,9 +114,11 @@ module.exports.destroySession=function(req,res){
 module.exports.update = function(req, res){
    if(req.user.id==req.params.id){
       User.findByIdAndUpdate(req.params.id,{name:req.body.name,email:req.body.email},function(err, user){
+         req.flash('success','Profile updated!');
          return res.redirect('back');
       })
    }else{
+      req.flash('error','Profile cannot be updated');
       return res.status(401).send('Unauthorized');
    }
 

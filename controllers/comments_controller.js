@@ -34,9 +34,11 @@ let post=await Post.findById(req.body.post);
      //adding comment to the post in the comments array
      post.comments.push(comment); //updating post in the mongodb 
      post.save(); //whenever something gets updated you have to call .save() after it to properly save it in db
+     req.flash('success','comment created!');
      res.redirect('/');
  }
 }catch(err){
+    req.flash('error',err);
     console.log(err);
     return;
 }
@@ -78,11 +80,14 @@ module.exports.destroy = async function(req,res){
        // comment.save(); //saving the deletion of the comment
         //pulling out the comment from the comments array in post ,$pull is used to remove that particular comment  
        post=await Post.findByIdAndUpdate(postId,{ $pull:{comments:req.params.id}});
+       req.flash('success','Comment deleted!');
        return res.redirect('back');
      }else{
+        req.flash('error','Comment cannot be deleted');
      return res.redirect('back');
      }
     }catch(err){
+        req.flash('error',err);
         console.log(err);
         return;
     }
