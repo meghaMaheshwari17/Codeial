@@ -14,11 +14,20 @@ module.exports.create= async function(req,res){
     // });
 
     try{
-        await Post.create({ //creating an entry in db for posts 
+        let post=await Post.create({ //creating an entry in db for posts 
             content: req.body.content ,
             user:req.user._id
          });
-         req.flash('success','Post created!');
+         //receiving the data through ajax
+         if(req.xhr){ //check if the request is ajax request for home_posts.js
+             return res.status(200).json({
+                 data:{
+                     post: post 
+                 },
+                 message:"Post created"
+             });//return json with status
+         }
+         req.flash('success','Post created!');//for flash message
          return res.redirect('back'); 
     }catch(error){
         req.flash('error','Error in creating post');
@@ -54,6 +63,17 @@ module.exports.destroy= async function(req,res){
         if(post.user == req.user.id){ //ideally _id should have been done but mongoose provides .id so id is directly converted to string, since ._id is of type objectId and .id is of type string 
              post.remove(); //removing post
             await Comment.deleteMany({post:req.params.id});
+
+            //for ajax request from home_posts.js
+             if(req.xhr){
+                 
+                 return res.status(200).json({
+                     data:{
+                        post_id:req.params.id
+                     },
+                     message:"Post deleted"
+                 })
+             }
             //flash message 
             req.flash('success','Post deleted');
             return res.redirect('back');

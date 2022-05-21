@@ -51,6 +51,7 @@ module.exports.home=async function(req,res){
 
    try{//for errors, need to be put only once 
    let posts=await Post.find({})
+   .sort('-createdAt') //to sort it according to the time
    .populate('user')
    .populate({   //populating comment and user of that comment  
       path:'comments',

@@ -1,9 +1,9 @@
-<li>
+<li id="post-<%=i._id%>">
     <!-- checking if user logged in is same as the user who posted it -->
     <!-- locals.user is to check if user is there -->
      <% if(locals.user && locals.user.id==i.user.id){ %> 
       <small>
-      <a href="/posts/destroy/<%=i.id%>">X</a>
+        <a class="delete-post-button" href="/posts/destroy/<%=i.id%>">X</a>
       </small>
      <%}%>
      <%= i.content %>
