@@ -1,6 +1,7 @@
 const Post=require('../models/post');
 //importing post schema to show posts
 const User = require('../models/user');
+const Comment = require('../models/comment');
 
 //exporting it and we need to acccess it in routes index.js
 //async declares that this function contains async code 
@@ -50,6 +51,7 @@ module.exports.home=async function(req,res){
    //it tells your server that this code contains async statements  and you need to wait at each statement and once it gets executed then move on to next statement
 
    try{//for errors, need to be put only once 
+   
    let posts=await Post.find({})
    .sort('-createdAt') //to sort it according to the time
    .populate('user')

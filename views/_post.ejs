@@ -14,7 +14,7 @@
      <!-- displaying comments of the post -->
      <div class="post-comments">
       <% if (locals.user){ %> <!--  will only be visible or accessible by authenticated users -->
-        <form method="POST" action="/comments/create"> <!-- creating comments    -->
+        <form method="POST" action="/comments/create" id="post-<%=i._id%>-comments-form"> <!-- creating comments    -->
           <input type="text" name="content" cols="20" rows="1" placeholder="Comment here..." required></textarea>
           <!-- need to send the postid -->
           <input type="hidden" name="post" value="<%=i._id%>" />
@@ -31,3 +31,5 @@
         </ul>
       </div>
 </li>
+
+<!-- for ajax  -->

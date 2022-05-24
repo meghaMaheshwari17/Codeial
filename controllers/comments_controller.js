@@ -22,20 +22,35 @@ module.exports.create = async function(req,res){
 //   })
 
 //async code 
-try{ 
+try{  //try catch is imp for async await 
 let post=await Post.findById(req.body.post);
  if(post){ //if the post exist then create the comment
     let comment=await Comment.create({
        content:req.body.content,
-       post:req.body.post,
-        user:req.user._id
+       post:req.body.post, //post id
+        user:req.user._id  //user id making the request
     });
 
      //adding comment to the post in the comments array
      post.comments.push(comment); //updating post in the mongodb 
+     
      post.save(); //whenever something gets updated you have to call .save() after it to properly save it in db
+    //  await Comment.find({})
+    //         .sort('-createdAt')
+            
+     //for ajax request 
+     if(req.xhr){ //if request is ajax 
+        let c = await comment.populate('user', 'name');
+        return res.status(200).json({
+            data:{
+                commentData:c
+            },
+            message:"Comment created successfully from ajax!"
+        });
+     }
+     
      req.flash('success','comment created!');
-     res.redirect('/');
+     return res.redirect('/');
  }
 }catch(err){
     req.flash('error',err);
@@ -80,6 +95,17 @@ module.exports.destroy = async function(req,res){
        // comment.save(); //saving the deletion of the comment
         //pulling out the comment from the comments array in post ,$pull is used to remove that particular comment  
        post=await Post.findByIdAndUpdate(postId,{ $pull:{comments:req.params.id}});
+
+       //for ajax request 
+       if(req.xhr){
+           return res.status(200).json({ 
+            data: {
+                comment_id: req.params.id
+            },
+            message: "Comment deleted from ajax!"
+           })
+       }
+
        req.flash('success','Comment deleted!');
        return res.redirect('back');
      }else{

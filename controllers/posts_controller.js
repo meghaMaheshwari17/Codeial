@@ -2,6 +2,8 @@
 const Post=require('../models/post');
 //importing comment 
 const Comment=require('../models/comment');
+//importing user
+const User=require('../models/user');
 //creating a post
  //async is to tell that this function contains async code
 module.exports.create= async function(req,res){
@@ -19,15 +21,18 @@ module.exports.create= async function(req,res){
             user:req.user._id
          });
          //receiving the data through ajax
+        //  let user=await User.findById(req.user._id); //another method to send back user name
          if(req.xhr){ //check if the request is ajax request for home_posts.js
+            // if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
+             await post.populate('user', 'name');
              return res.status(200).json({
                  data:{
-                     post: post 
+                     post: post
                  },
-                 message:"Post created"
+                 message:"Post created through ajax!"
              });//return json with status
          }
-         req.flash('success','Post created!');//for flash message
+        //  req.flash('success','Post created!');//for flash message //now dynamicaaly in ajax request
          return res.redirect('back'); 
     }catch(error){
         req.flash('error','Error in creating post');
@@ -66,16 +71,15 @@ module.exports.destroy= async function(req,res){
 
             //for ajax request from home_posts.js
              if(req.xhr){
-                 
                  return res.status(200).json({
                      data:{
                         post_id:req.params.id
                      },
-                     message:"Post deleted"
+                     message:"Post deleted through ajax"
                  })
              }
             //flash message 
-            req.flash('success','Post deleted');
+            //  req.flash('success','Post deleted'); //now dynamically done in ajax request in home_posts.js
             return res.redirect('back');
         }else{
             req.flash('error','you cannot delete this post');
