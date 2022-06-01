@@ -42,6 +42,9 @@ app.use(cookieParser());
 //accessing static files
 app.use(express.static('./assets'));
 
+//making the uploads path to avatar available to the browser
+app.use('/uploads',express.static(__dirname + '/uploads'));
+
 // requiring layouts
 const expressLayouts=require('express-ejs-layouts');
 

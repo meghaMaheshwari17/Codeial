@@ -11,15 +11,18 @@
 
 <link rel="stylesheet" href="/css/user_profile.css">
 
-    
+<!-- showing the avatar -->
+<img src="<%=user.avatar%>" alt="<%=user.name%>" width="100px" >
 
 
 <!-- if the user who is logged in clicked on its own name then display a form to them -->
 <% if(profile_user.id==user.id) { %>
   <!-- can change their info -->
-   <form action="/users/update/<%=profile_user.id%>" method="POST">
+  <!-- for using file uploads we are putting enctype -->
+   <form action="/users/update/<%=user.id%>" method="POST" enctype="multipart/form-data">
        <input type="text" name="name" placeholder="Your name" value="<%=profile_user.name%>" required>
        <input type="email" name="email" placeholder="Your email" value="<%=profile_user.email%>" required>
+       <input type="file" name="avatar"  placeholder="Profile Picture">
        <input type="submit" value="update">
     </form>
     
