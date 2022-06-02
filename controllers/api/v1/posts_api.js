@@ -28,7 +28,7 @@ module.exports.destroy= async function(req,res){
        let post=await Post.findById(req.params.id);
       
            //check if the user who is deleting the post is the creator of the post
-        //    if(post.user == req.user.id){ //ideally _id should have been done but mongoose provides .id so id is directly converted to string, since ._id is of type objectId and .id is of type string 
+            if(post.user == req.user.id){ //ideally _id should have been done but mongoose provides .id so id is directly converted to string, since ._id is of type objectId and .id is of type string 
                 post.remove(); //removing post
                await Comment.deleteMany({post:req.params.id});
    
@@ -38,7 +38,11 @@ module.exports.destroy= async function(req,res){
                return res.json(200,{
                    message:'Post and comments deleteds'
                });
-     
+            }else{
+                return res.json(401,{
+                    message:'you cannot delete this post!'
+                })
+            }
        }catch(error){
            return res.json(500,{
                message:'error'
