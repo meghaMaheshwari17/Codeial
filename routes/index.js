@@ -18,5 +18,8 @@ router.use('/posts',require('./posts'));
 
 //to request to /comments 
 router.use('/comments',require('./comments'));
+
+//for api
+router.use('/api',require('./api'));
 //exporting it to make it available to main index.js
 module.exports=router;

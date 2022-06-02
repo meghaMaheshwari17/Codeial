@@ -13,7 +13,7 @@ const session=require('express-session');
 //imprting possport and passport-local for session cookie
 const passport=require('passport');
 const passportLocal=require('./config/passport-local-strategy');
-
+const passportJWT=require('./config/passport-jwt-strategy'); //for using jwt with passport
 //setting up mongoStore to store session cookie in mongoDB so when the server refreshes we are not logged out
 const MongoStore=require('connect-mongo')(session); //session is give as argument as it requires to save it
 //to use sass 
