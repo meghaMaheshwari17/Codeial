@@ -37,5 +37,13 @@ router.post('/create-session',passport.authenticate(
 //to update user info 
 router.post('/update/:id',passport.checkAuthentication, usersController.update);
 
+//this url is given by passport and google will automatically recognize that request is coming from this
+//the first route from which we will send the request to google to authenticate the user
+router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}));  //first argument is the strategy and second argument is scope which is the info we are looking to fetch
+
+//the second route which will google return after authentciating the user:- callback url 
+router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/users/sign-in'}),usersController.createSession);
+
+
 //exporting it to routes index.js
 module.exports=router;

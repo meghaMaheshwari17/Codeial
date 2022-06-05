@@ -35,4 +35,4 @@ passport.use(new googleStrategy({
 
     ));
 
-module.exports =passort;
+module.exports =passport;
