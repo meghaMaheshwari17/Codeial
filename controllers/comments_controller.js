@@ -1,7 +1,8 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 const User = require('../models/user');
-
+//to send emails whenevr someone comments 
+const commentsMailer = require('../mailers/comments_mailer');
 
 //creating the comments 
 module.exports.create = async function(req,res){
@@ -39,11 +40,14 @@ let post=await Post.findById(req.body.post);
     //         .sort('-createdAt')
             
      //for ajax request 
+     comment = await comment.populate('user', 'name email'); //populating user
+     //to send emails 
+     commentsMailer.newComment(comment);
      if(req.xhr){ //if request is ajax 
-        let c = await comment.populate('user', 'name');
+        
         return res.status(200).json({
             data:{
-                commentData:c
+                commentData:comment
             },
             message:"Comment created successfully from ajax!"
         });
