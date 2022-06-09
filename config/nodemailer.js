@@ -22,10 +22,10 @@ let renderTemplate=(data,relativePath)=>{ //relative path from where the mail is
     let mailHTML;  //what all html is going to be sent in the mail
     //ejs will give the html files
     ejs.renderFile(
-        path.join(__dirname,'../views/mailers'), //path where data is 
+        path.join(__dirname,'../views/mailers',relativePath), //path where data is 
         data, //content to be rendered
         function(err,template){ //callback function, template consist of path and data
-             if(err){console.log('error in rendering template');return;}
+             if(err){console.log('error in rendering template',err);return;}
              mailHTML = template; 
         }
     )
