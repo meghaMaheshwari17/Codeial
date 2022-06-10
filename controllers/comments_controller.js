@@ -3,7 +3,10 @@ const Post = require('../models/post');
 const User = require('../models/user');
 //to send emails whenevr someone comments 
 const commentsMailer = require('../mailers/comments_mailer');
-
+//importing queue 
+const queue = require('../config/kue');
+//importing comment email worker and queue for mails 
+const commentEmailWorker = require('../workers/comment_email_worker');
 //creating the comments 
 module.exports.create = async function(req,res){
     //to create a comment we have to first see if the post exist or not
@@ -42,8 +45,14 @@ let post=await Post.findById(req.body.post);
      //for ajax request 
      comment = await comment.populate('user', 'name email'); //populating user
      //to send emails 
-     commentsMailer.newComment(comment);
-     if(req.xhr){ //if request is ajax 
+    //  commentsMailer.newComment(comment);
+    //using queue to send emails:- creating the job in the queue , if there is no queue it will create one
+    let job=queue.create('emails',comment).save(function(err){
+        if(err){console.log('error in creating the queue',err);return;}
+        console.log('job enqueued:',job.id); //it is available with every job  
+    });
+     
+    if(req.xhr){ //if request is ajax 
         
         return res.status(200).json({
             data:{
