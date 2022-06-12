@@ -44,6 +44,17 @@ router.get('/auth/google',passport.authenticate('google',{scope:['profile','emai
 //the second route which will google return after authentciating the user:- callback url 
 router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/users/sign-in'}),usersController.createSession);
 
+// for forgot password link 
+router.get('/forgot-password',usersController.forgotPassword);
 
+// for sending email when password is forgotten
+router.post('/check-email',usersController.checkEmail);
+
+// when user is redirected from email to the page where password is getting reset 
+router.get('/reset-password/:accessToken',usersController.resetPassword);
+
+// will check if password and confirm password are same if yes then change th password, if not then redirect back
+// so getting the password from the email 
+router.post('/check-reset-password/:accessToken',usersController.checkResetPassword);
 //exporting it to routes index.js
 module.exports=router;

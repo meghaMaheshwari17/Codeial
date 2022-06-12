@@ -15,3 +15,6 @@ queue.process('emails',function(job,done){
 }) //first is name of the queue, second is the job
 
 //this worker should be called from controller so that we are putting the function in the queue of this worker 
+
+//redis server how to start:- wsl terminal :- sudo service redis-server start , redis-cli 
+// 127.0.0.1:6379> ping

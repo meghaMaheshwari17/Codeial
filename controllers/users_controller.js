@@ -1,8 +1,12 @@
 //importing user schema from models/user
 const User = require('../models/user');
+const Password = require('../models/password');
 const fs = require('fs'); //for deleting the avatar
 const path = require('path'); //for deleting the avatar path
-
+//for generating access token
+const crypto=require('crypto');
+// for sending email
+const passwordMailer= require('../mailers/password_mailer');
 // let's keep it same as before
 module.exports.profile = function(req, res){
    // if(req.cookies.user_id){ //if user_id is present in the cookies or not
@@ -152,8 +156,6 @@ module.exports.destroySession = function(req, res){
     req.logout();
      //flash messaage:- its on req, we have to transfer it to res  
     req.flash('success', 'You have logged out!');
-
-
     return res.redirect('/');
 }
 
@@ -162,3 +164,87 @@ module.exports.destroySession = function(req, res){
 //    res.clearCookie('user_id');
 //    return res.redirect('/users/sign-in');
 // };
+
+// when user forgets password we render the forgot password page
+module.exports.forgotPassword = function(req, res){
+    return res.render('forgot_password',{
+        title: 'Forgot Password'
+    })
+}
+
+// sending email to user when they forget password
+module.exports.checkEmail= async function(req, res){
+    try{
+        // finding user with that info and sending the mail to him
+        let user=await User.findOne({email:req.body.email});
+        if(user){
+            // for creating acessToken
+         let accessToken = crypto.randomBytes(20).toString('hex');
+         // sending the email 
+        passwordMailer.newPassword(user,accessToken);
+        // creating password in the database
+        Password.create({
+            user:user,
+            accessToken:accessToken,
+            isValid:true
+         },function(err, password){
+            if(err){console.log(err);return;}
+            req.flash('success','Email sent!');
+            return res.redirect('/users/sign-in');
+         })
+       }else{
+       req.flash('error','Enter registered email');
+      return res.redirect('back');
+       }
+    }catch(err){
+        console.log(err);
+        return;
+    }
+   
+}
+
+// when user gets redirected to rest password page 
+module.exports.resetPassword = async function(req, res){
+ try{
+    // finding if the link is valid or not
+    let password=await Password.findOne({accessToken:req.params.accessToken});
+    if(password.isValid=='false'){
+        return res.status(401).send('This link is expired now')
+    }else{
+        return res.render('reset_password',{title:'Reset Password',accessToken:req.params.accessToken});
+    }
+ }catch(err){console.log(err);return;}
+    
+   
+}
+
+// getting the password from the email and checking it
+module.exports.checkResetPassword= async function(req, res){
+    try{
+        if(req.body.password!=req.body.confirm_password){ //checking if password and confirm_password are same or not
+            req.flash('error','Enter correct password');
+            return res.redirect('back');
+        }
+        // finding password in the database with acessToken , if its isValid is true then we make it false, so that we know we already visited this, then find the user and set its password
+        let password=await Password.findOne({accessToken:req.params.accessToken});
+        if(password){
+            if(password.isValid){
+                password.isValid = 'false';
+                password.save();
+                await User.findOneAndUpdate(password.user, {$set:{password:req.body.password}}, {new: true}, (err, user) => {
+                    if (err) {
+                        console.log("Something wrong when updating data!");
+                    }
+                    req.flash('success','Password has been changed successfully!');
+                    return res.redirect('/users/sign-in');
+                });
+                
+            }
+        }
+   
+        return res.redirect('/');
+    }catch(err){console.log(err);return;}
+    
+
+
+}

@@ -1,6 +1,7 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 const User = require('../models/user');
+
 //to send emails whenevr someone comments 
 const commentsMailer = require('../mailers/comments_mailer');
 //importing queue 
