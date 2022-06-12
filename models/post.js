@@ -17,6 +17,13 @@ const postSchema=new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId, //will refer to comments's schema
             ref:'Comment'   
         }
+    ],
+    // storing likes array on a particular post 
+    likes:[
+        {
+            type:mongoose.Schema.Types.ObjectId, 
+            ref:'Like' 
+        }
     ]
 },{
     timestamps:true 
