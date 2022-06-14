@@ -21,5 +21,8 @@ router.use('/comments',require('./comments'));
 
 //for api
 router.use('/api',require('./api'));
+
+// for likes 
+router.use('/likes',require('./likes'));
 //exporting it to make it available to main index.js
 module.exports=router;
