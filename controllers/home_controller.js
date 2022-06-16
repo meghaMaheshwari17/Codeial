@@ -59,8 +59,12 @@ module.exports.home=async function(req,res){
       path:'comments',
       populate:{
           path:'user'
+      },
+    //   getting the likes of each comment too
+      populate:{
+        path:'likes'
       }
-    }) ;
+    }).populate('likes'); //populating likes of each post
     //once post part gets executed then only user part gets executed 
     let user=await User.find({});
     

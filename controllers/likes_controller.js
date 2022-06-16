@@ -41,8 +41,8 @@ module.exports.toggleLike=async function(req,res){
 
         return res.json(200,{
             message:'request successful',
-            data:{
-                deleted:deleted
+            data:{  //sending this data to toggle_likes.js for ajax request to see if we have to increase the like count or decrease it
+                deleted:deleted 
             }
         })
     }catch(err){

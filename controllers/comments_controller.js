@@ -1,7 +1,7 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 const User = require('../models/user');
-
+const Like = require('../models/like');
 //to send emails whenevr someone comments 
 const commentsMailer = require('../mailers/comments_mailer');
 //importing queue 
@@ -107,6 +107,8 @@ module.exports.destroy = async function(req,res){
        let postId=comment.post;
         comment.remove(); //removing the comment
        // comment.save(); //saving the deletion of the comment
+    //    deleting the likes of that post too 
+         await Like.deleteMany({likeable:comment,onModel:'Comment'});
         //pulling out the comment from the comments array in post ,$pull is used to remove that particular comment  
        post=await Post.findByIdAndUpdate(postId,{ $pull:{comments:req.params.id}});
 

@@ -120,7 +120,9 @@ class PostComments { //calling this class in home_posts.js to get the post id
                   let newComment = pSelf.newCommentDom(data.data.commentData);
                   $(`#post-comments-${postId}`).prepend(newComment);
                    pSelf.deleteComment($(' .delete-comment-button', newComment));
-                  notySuccess(data.message);
+                //  to get the toggle like class for comments 
+                new ToggleLike($('.toggle-like-button', newComment));
+                   notySuccess(data.message);
 
               }, error: function (error) {
                   console.log(error.responseText);
@@ -144,6 +146,12 @@ class PostComments { //calling this class in home_posts.js to get the post id
            <br>
            <small>${comment.user.name}</small>
            </p>
+           <!-- displaying likes for comment --> 
+           <small>
+            <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${comment._id}&type=Comment"> 
+             0 Likes
+            </a>
+      </small>
          </li> 
          `)
   }

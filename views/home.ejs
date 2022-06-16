@@ -42,5 +42,14 @@
 <script type="text/javascript" src="/js/home_comments.js"></script>
 <script type="text/javascript" src="/js/home_posts.js"></script>
 
+<!-- script for toggling likes --> 
+<script type="text/javascript" src="/js/toggle_likes.js"></script>
+<script>
+  // adding toggleLike class for ajax request on each like link
+  $('.toggle-like-button').each(function(){
+    let self=this; 
+    let toggleLike=new ToggleLike(self);
+  })
+</script>
 <!--  include('_footer'); -->
 <!-- </html>  -->

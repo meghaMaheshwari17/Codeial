@@ -4,6 +4,8 @@ const Post=require('../models/post');
 const Comment=require('../models/comment');
 //importing user
 const User=require('../models/user');
+// importing like 
+const Like=require('../models/like');
 //creating a post
  //async is to tell that this function contains async code
 module.exports.create= async function(req,res){
@@ -68,7 +70,9 @@ module.exports.destroy= async function(req,res){
         if(post.user == req.user.id){ //ideally _id should have been done but mongoose provides .id so id is directly converted to string, since ._id is of type objectId and .id is of type string 
              post.remove(); //removing post
             await Comment.deleteMany({post:req.params.id});
-
+        //    deleting likes also for the post and all its comment's likes too
+           await Like.deleteMany({likeable:post,onModel:'Post'});
+           await Like.deleteMany({_id:{$in:post.comments}});
             //for ajax request from home_posts.js
              if(req.xhr){
                  return res.status(200).json({

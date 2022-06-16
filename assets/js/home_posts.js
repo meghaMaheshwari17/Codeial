@@ -19,7 +19,8 @@
 
                     // call the create comment class
                     new PostComments(data.data.post._id); //sending the post id to home_comments.js to create and delete comments throgh ajax
-
+                    // calling the toggle like class ont the new post
+                    new ToggleLike($('.toggle-like-button', newPost));
                     notySuccess(data.message); //if successful then show flash message
 
                 }, error: function(error){ //if error then show error
@@ -42,6 +43,13 @@
                         <p>
                         ${ post.user.name }
                         </p>
+                        <!-- display the likes of the post:- showing 0 likes by default-->
+                         <br>
+                         <small>
+                              <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${post._id}&type=Post"> 
+                                0 Likes  
+                              </a>
+                          </small>
                         <!-- displaying comments of the post -->
                     <div class="post-comments">
                         <form id="post-${ post._id }-comments-form" action="/comments/create" method="POST">
