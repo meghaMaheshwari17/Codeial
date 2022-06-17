@@ -1,6 +1,7 @@
 //importing user schema from models/user
 const User = require('../models/user');
 const Password = require('../models/password');
+const Friendship = require('../models/friendship');
 const fs = require('fs'); //for deleting the avatar
 const path = require('path'); //for deleting the avatar path
 //for generating access token
@@ -8,7 +9,7 @@ const crypto=require('crypto');
 // for sending email
 const passwordMailer= require('../mailers/password_mailer');
 // let's keep it same as before
-module.exports.profile = function(req, res){
+module.exports.profile = async function(req, res){
    // if(req.cookies.user_id){ //if user_id is present in the cookies or not
    //    User.findOne({_id:req.cookies.user_id},function(err, user){
    //       if(err){console.log('Error in finding profile of the user'); return;}
@@ -21,19 +22,28 @@ module.exports.profile = function(req, res){
    // }else{//if user_id is not present in the cookies
    //    return res.redirect('/users/sign-in');
    // }
-    User.findById(req.params.id, function(err, user){
+    
+    try{
+        let profile_user=await User.findById(req.params.id);
+        let checkUserFriend=await Friendship.findOne({
+            from_user:req.user.id, 
+            to_user:req.params.id
+        });
+        let exists=false;
+        if(checkUserFriend){
+           exists=true;
+        }
         return res.render('user_profile', {
             title: 'User Profile',
-            profile_user: user
+            profile_user: profile_user,
+            exists:exists
         });
-    });
+    }catch(err){console.log(err);return;}
 
 }
 
 
 module.exports.update = async function(req, res){
-   
-
     if(req.user.id == req.params.id){
 
         try{

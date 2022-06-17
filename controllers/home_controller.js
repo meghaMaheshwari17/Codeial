@@ -2,7 +2,7 @@ const Post=require('../models/post');
 //importing post schema to show posts
 const User = require('../models/user');
 const Comment = require('../models/comment');
-
+const Friendship = require('../models/friendship');
 //exporting it and we need to acccess it in routes index.js
 //async declares that this function contains async code 
 module.exports.home=async function(req,res){
@@ -67,12 +67,18 @@ module.exports.home=async function(req,res){
     }).populate('likes'); //populating likes of each post
     //once post part gets executed then only user part gets executed 
     let user=await User.find({});
-    
+    let friends;
+    if(req.user){
+       friends=await Friendship.find({from_user:req.user._id}).populate('to_user','name') //populating friends of each post
+      
+    }
+   
     //once post and user is executed then we return something to the browser  
     return res.render('home',{
         title:"Codeial | Home",
         posts:posts,
-        all_users:user
+        all_users:user,
+        all_friends:friends
     }) //rendering home.ejs file
   }catch(error){
       console.log(error);

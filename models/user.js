@@ -23,7 +23,14 @@ const userSchema=new mongoose.Schema({
       },
     avatar:{
         type:String
+      },
+      // keeping an array of the friends 
+     friendships:[
+      {
+      type:mongoose.Schema.Types.ObjectId,
+        ref:'Friendship'
       }
+     ]
     },
     {
         timestamps:true //will store when the user was created and updated

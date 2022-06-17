@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="/css/user_profile.css">
 
 <!-- showing the avatar -->
-<img src="<%=user.avatar%>" alt="<%=user.name%>" width="100px" >
+<img src="<%=profile_user.avatar%>" alt="<%=profile_user.name%>" width="100px" >
 
 
 <!-- if the user who is logged in clicked on its own name then display a form to them -->
@@ -30,4 +30,12 @@
   <!-- if the user is different then show only profile info -->
   <h1>Hello, <%=profile_user.name%> from user_profile</h1>
   <p><%=profile_user.email%></p>
+  <!-- adding this user as friendship -->
+  <% if(exists){ %>
+    <a href="/friends/delete/?uid=<%=user.id%>&fid=<%=profile_user.id%>">Remove as friend</a>
+  <% }else{ %>
+    <a href="/friends/add/?uid=<%=user.id%>&fid=<%=profile_user.id%>">Add Friend</a>
+  <% } %>
+  
+  
 <% } %>

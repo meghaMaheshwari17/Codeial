@@ -24,5 +24,7 @@ router.use('/api',require('./api'));
 
 // for likes 
 router.use('/likes',require('./likes'));
+// for friendship 
+router.use('/friends',require('./friendship'));
 //exporting it to make it available to main index.js
 module.exports=router;
