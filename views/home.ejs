@@ -8,9 +8,9 @@
   <!--  include('_header.ejs');  -->
 
 <link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="css/chat_box.css">
 
 <div id="home-container">
-
  <section id="feed-posts">
   <h4>Posts</h4>
   <% if (locals.user){ %> <!--only user will throw error -->
@@ -46,6 +46,8 @@
      </p>
   <% } %>
 </section>
+<!-- chatbox -->
+ <%- include('_chatbox') -%>
 </div>
 <!-- script for ajax posts -->
 <script type="text/javascript" src="/js/home_comments.js"></script>
@@ -60,5 +62,8 @@
     let toggleLike=new ToggleLike(self);
   })
 </script>
+<!-- includeing sockets for chat engine -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="/js/chat_engine.js"></script>
 <!--  include('_footer'); -->
 <!-- </html>  -->

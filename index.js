@@ -26,6 +26,11 @@ const flash=require('connect-flash');
 //importing custom middleware to be used (for flash)
 const customMiddleware=require('./config/middleware');
 
+// importing sockets for chat engine and setting it up
+const chatServer=require('http').Server(app);
+const chatSockets=require('./config/chat_sockets').chatSockets(chatServer);
+chatServer.listen(5000); 
+console.log('chat server is listening on port 5000')
 //using sass before server starts
 app.use(sassMiddleware({
     src:'./assets/scss', //from where the sass files will be picked up
