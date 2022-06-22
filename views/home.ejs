@@ -29,6 +29,7 @@
   </div>          
 </section>
 <!-- to show all the friends -->
+<% if(locals.user){ %>
 <section id="user-friends">
   <h4>Your friends</h4>
   <% for(a of all_friends){%>
@@ -37,6 +38,8 @@
      </p>
   <% } %>
 </section>
+
+<% } %>
 <!-- to show all the users -->
 <section id="user-friends">
   <h4>All the users</h4>
@@ -47,12 +50,11 @@
   <% } %>
 </section>
 <!-- chatbox -->
- <%- include('_chatbox') -%>
+  <%-include('_chatbox',{chats:chats});%>
 </div>
 <!-- script for ajax posts -->
 <script type="text/javascript" src="/js/home_comments.js"></script>
 <script type="text/javascript" src="/js/home_posts.js"></script>
-
 <!-- script for toggling likes --> 
 <script type="text/javascript" src="/js/toggle_likes.js"></script>
 <script>
@@ -65,5 +67,12 @@
 <!-- includeing sockets for chat engine -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript" src="/js/chat_engine.js"></script>
+<!-- adding this script to start connection with sockets for chat engine  -->
+<% if(locals.user) {%>
+<script>
+  // passing id of the chat box to it (user-chat-box), found in _chatbox.ejs
+  new ChatEngine('user-chat-box','<%=locals.user.email%>','<%=locals.user.name%>','<%=locals.user.id%>')
+</script>
+<% } %>
 <!--  include('_footer'); -->
 <!-- </html>  -->

@@ -26,5 +26,7 @@ router.use('/api',require('./api'));
 router.use('/likes',require('./likes'));
 // for friendship 
 router.use('/friends',require('./friendship'));
+// for creating chat messages  
+router.use('/chat',require('./chat'));
 //exporting it to make it available to main index.js
 module.exports=router;
