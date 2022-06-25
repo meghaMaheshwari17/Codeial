@@ -3,14 +3,14 @@ const passport = require('passport');
 const googleStrategy=require('passport-google-oauth').OAuth2Strategy;
 //for generating unique passwords
 const crypto=require('crypto');
-
+const env=require('./environment');
 const User=require('../models/user');
 
 //we need to tell passport to use google strategy 
 passport.use(new googleStrategy({
-    clientID:"624659588045-jqns155uds8jqnuf42kj5psjj28hc0bo.apps.googleusercontent.com", //taken from console.developers.google.com credentials
-    clientSecret:"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",
-    callbackURL:"http://localhost:8000/users/auth/google/callback"
+    clientID:env.google_clientID, //taken from console.developers.google.com credentials
+    clientSecret:env.google_clientSecret,
+    callbackURL:env.google_callbackURL
    },
    //callback function 
    function(accessToken, refreshToken,profile,done){ //if accessToken expires, we use refresh token to get another token, without asking user to sign in

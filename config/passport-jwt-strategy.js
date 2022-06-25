@@ -1,6 +1,6 @@
 //importing passport 
 const passport = require('passport');
-
+const env = require('./environment');
 const JWTStrategy=require('passport-jwt').Strategy;
 
 //a module which will help us to extract jwt from header 
@@ -12,7 +12,7 @@ const User=require('../models/user');
 //key is to be present to encrypt any text and decrypt it back
 let opts={
     jwtFromRequest:ExtractJWT.fromAuthHeaderAsBearerToken(), //header is a list of keys, it has a key called authorization, that is also a list of keys, that can have a key called bearer, which will have the jwt token, so we will be able to extract from authorisation header  
-    secretOrKey:'codeial' //encryption or decryption string 
+    secretOrKey:env.jwt_secret //encryption or decryption string 
 }
 
 //tell passport to use jwt strategy 

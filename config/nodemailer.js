@@ -4,17 +4,19 @@ const nodemailer = require('nodemailer');
 //ejs is going to be used to render that template and send it 
 const ejs = require('ejs');
 const path= require('path');
+const env=require('./environment');
 //transporter 
-let transporter=nodemailer.createTransport({
-     service:'gmail',
-     host:'smtp.gmail.com', //gmail smtp server address
-     port:587, //TLS required
-     secure:false, 
-     auth:{
-          user:'meghamaheshwari.imscit20', //the account from which you are sending emails
-          pass:'xvshnkwizzmwzfsa'  //password
-        } //have to establish your identity with google 
-});
+let transporter=nodemailer.createTransport(
+    //  service:'gmail',
+    //  host:'smtp.gmail.com', //gmail smtp server address
+    //  port:587, //TLS required
+    //  secure:false, 
+    //  auth:{
+    //       user:'meghamaheshwari.imscit20', //the account from which you are sending emails
+    //       pass:'xvshnkwizzmwzfsa'  //password
+    //     } //have to establish your identity with google 
+   env.smtp
+);
 
 //template to send email with some html
 

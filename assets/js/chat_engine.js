@@ -34,11 +34,8 @@ class ChatEngine{
             });
             
             // whenever someone clicks the send message button then emit an event send_message,then detect it on servers
-            // $('#create-chat-form').submit(function(event){
-                
-               
-            // })
-            $('#send-message').click(function(){
+            $('#create-chat-form').submit(function(event){
+                event.preventDefault();
                 let msg=$('#chat-message-input').val();
                 console.log(msg);
                 if(msg!=''){    
@@ -52,6 +49,9 @@ class ChatEngine{
                 }
                 $('#chat-message-input').val("");
             })
+            // $('#send-message').click(function(){
+               
+            // })
 
             // when someone receives a message :- emitted from server side  
             self.socket.on('receive_message',function(data){

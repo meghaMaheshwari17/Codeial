@@ -1,5 +1,7 @@
 //firing up express
 const express=require('express');
+// importing environment file 
+const env=require('./config/environment');
 //to read,write cookies
 const cookieParser = require('cookie-parser');
 
@@ -31,10 +33,12 @@ const chatServer=require('http').Server(app);
 const chatSockets=require('./config/chat_sockets').chatSockets(chatServer);
 chatServer.listen(5000); 
 console.log('chat server is listening on port 5000')
+
+const path=require('path');
 //using sass before server starts
 app.use(sassMiddleware({
-    src:'./assets/scss', //from where the sass files will be picked up
-    dest:'./assets/css', //where do scss files should be put 
+    src: path.join(__dirname,env.asset_path,'/scss'),      //'./assets/scss', //from where the sass files will be picked up
+    dest: path.join(__dirname,env.asset_path,'/css'),//'./assets/css', //where do scss files should be put 
     debug: true, //errors would be shown in terminal
     outputStyle:'extended', //put it in multiple(extended) or single lines(compress)
     prefix:'/css'  //where should the server look for scss files
@@ -48,8 +52,8 @@ app.use(cookieParser());
 
 
 //accessing static files
-app.use(express.static('./assets'));
-
+// app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));
 //making the uploads path to avatar available to the browser
 app.use('/uploads',express.static(__dirname + '/uploads'));
 
@@ -73,7 +77,7 @@ app.set('views','./views');
 app.use(session({
     name:'codeial', //name of my cookie 
     //to do change the secret before deployment in production mode
-    secret:'blahsomething', //to encode it 
+    secret:env.session_cookie_key, //to encode it 
     saveUninitialized:false, //when the user identity is not established, I don't want to store extra data in my session cookie
     resave:false,//when the identity is established or data is present in session cookie, I don't want to resave it again and again
     cookie:{
