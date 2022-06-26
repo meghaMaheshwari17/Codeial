@@ -2,6 +2,9 @@
 const express=require('express');
 // importing environment file 
 const env=require('./config/environment');
+
+// calling morgan to save logs at the time of production 
+const logger = require('morgan');
 //to read,write cookies
 const cookieParser = require('cookie-parser');
 
@@ -36,13 +39,16 @@ console.log('chat server is listening on port 5000')
 
 const path=require('path');
 //using sass before server starts
-app.use(sassMiddleware({
-    src: path.join(__dirname,env.asset_path,'/scss'),      //'./assets/scss', //from where the sass files will be picked up
-    dest: path.join(__dirname,env.asset_path,'/css'),//'./assets/css', //where do scss files should be put 
-    debug: true, //errors would be shown in terminal
-    outputStyle:'extended', //put it in multiple(extended) or single lines(compress)
-    prefix:'/css'  //where should the server look for scss files
-}));
+if(env.name=='development'){ //load the sass only in development mode
+    app.use(sassMiddleware({
+        src: path.join(__dirname,env.asset_path,'/scss'),      //'./assets/scss', //from where the sass files will be picked up
+        dest: path.join(__dirname,env.asset_path,'/css'),//'./assets/css', //where do scss files should be put 
+        debug: true, //errors would be shown in terminal
+        outputStyle:'extended', //put it in multiple(extended) or single lines(compress)
+        prefix:'/css'  //where should the server look for scss files
+    }));
+}
+
 
 //to read post requests from forms and all 
 app.use(express.urlencoded());
@@ -56,6 +62,9 @@ app.use(cookieParser());
 app.use(express.static(env.asset_path));
 //making the uploads path to avatar available to the browser
 app.use('/uploads',express.static(__dirname + '/uploads'));
+
+// the logger will be used here 
+app.use(logger(env.morgan.mode,env.morgan.options));
 
 // requiring layouts
 const expressLayouts=require('express-ejs-layouts');
