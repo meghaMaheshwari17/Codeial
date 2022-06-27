@@ -7,8 +7,8 @@
   <!-- including partials -->
   <!--  include('_header.ejs');  -->
 
-<link rel="stylesheet" href="/css/home.css">
-<link rel="stylesheet" href="css/chat_box.css">
+<link rel="stylesheet" href="<%=assetPath('/css/home.css')%>">
+<link rel="stylesheet" href="<%=assetPath('css/chat_box.css')%>">
 
 <div id="home-container">
  <section id="feed-posts">
@@ -53,10 +53,10 @@
   <%-include('_chatbox',{chats:chats});%>
 </div>
 <!-- script for ajax posts -->
-<script type="text/javascript" src="/js/home_comments.js"></script>
-<script type="text/javascript" src="/js/home_posts.js"></script>
+<script type="text/javascript" src="<%=assetPath('js/home_comments.js')%>"></script>
+<script type="text/javascript" src="<%=assetPath('js/home_posts.js')%>"></script>
 <!-- script for toggling likes --> 
-<script type="text/javascript" src="/js/toggle_likes.js"></script>
+<script type="text/javascript" src="<%=assetPath('js/toggle_likes.js')%>"></script>
 <script>
   // adding toggleLike class for ajax request on each like link
   $('.toggle-like-button').each(function(){

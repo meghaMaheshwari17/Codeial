@@ -1,7 +1,11 @@
 //firing up express
 const express=require('express');
+// for storing environment variables dotenv is used
+require('dotenv').config();
 // importing environment file 
 const env=require('./config/environment');
+console.log(env.name,env.asset_path);
+
 
 // calling morgan to save logs at the time of production 
 const logger = require('morgan');
@@ -9,6 +13,11 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 
 const app=express(); //getting all the express functionality in app constant 
+
+// importing view_helper.js file:- now this view helper will be available in views 
+// so that at the time of production we access minified js css files
+require('./config/view_helpers')(app);
+
 const port=8000;
 //using db 
 const db=require('./config/mongoose');
@@ -40,6 +49,7 @@ console.log('chat server is listening on port 5000')
 const path=require('path');
 //using sass before server starts
 if(env.name=='development'){ //load the sass only in development mode
+    console.log('in development mode..');
     app.use(sassMiddleware({
         src: path.join(__dirname,env.asset_path,'/scss'),      //'./assets/scss', //from where the sass files will be picked up
         dest: path.join(__dirname,env.asset_path,'/css'),//'./assets/css', //where do scss files should be put 
