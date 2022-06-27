@@ -117,7 +117,7 @@ app.use(flash());
 app.use(customMiddleware.setFlash);
 
 //need to tell that all the routes will be execute in routes/index.js
-app.use('/',require('./routes'));  
+app.use('/',require('./routes'));
 
 //running the server 
 app.listen(port,function(err){
