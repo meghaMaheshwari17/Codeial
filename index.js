@@ -1,7 +1,7 @@
 //firing up express
 const express=require('express');
 // for storing environment variables dotenv is used
-require('dotenv').config();
+require('dotenv').config({path:"./vars/.env"});
 // importing environment file 
 const env=require('./config/environment');
 console.log(env.name,env.asset_path);
