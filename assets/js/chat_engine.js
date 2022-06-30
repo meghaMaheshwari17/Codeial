@@ -6,8 +6,8 @@ class ChatEngine{
          this.userName=userName;
          this.userId=userId;
         //  we need to intiate the connection :- will fire 'connection' event in chat_sockets.js
-        this.socket=io.connect('http://localhost:5000') //io is gloabal variable available with cdn script tag
-        
+        // this.socket=io.connect('http://localhost:5000') //io is gloabal variable available with cdn script tag
+        this.socket=io.connect('http://13.126.209.182:5000');
         // if user asks for connection then only call for connection 
         if(this.userEmail){
             this.connectionHandler();

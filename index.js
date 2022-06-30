@@ -61,7 +61,7 @@ if(env.name=='development'){ //load the sass only in development mode
 
 
 //to read post requests from forms and all 
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:false}));
 
 //to use cookieParser
 app.use(cookieParser());
